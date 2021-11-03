@@ -1,13 +1,17 @@
 import { preferences } from "@raycast/api";
 import fetch, { Headers } from "node-fetch";
 import { IRepositoriesResponse, IRepository } from "./interfaces/Repositories";
+import {URLSearchParams} from "url";
 
 export class BitbucketClient {
   private username: string = preferences.username.value as string;
   private appPassword: string = preferences.app_password.value as string;
 
   async getRepositories(): Promise<IRepository[]> {
-    const res = await fetch(`https://api.bitbucket.org/2.0/repositories`, {
+    const url = new URL('https://api.bitbucket.org/2.0/repositories');
+    const params = {role: 'owner'};
+    url.search = new URLSearchParams(params).toString();
+    const res = await fetch(url, {
       method: 'GET',
       headers: this.headers,
     });
