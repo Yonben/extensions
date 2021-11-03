@@ -11,7 +11,7 @@ export class BitbucketClient {
     const url = new URL('https://api.bitbucket.org/2.0/repositories');
     const params = {role: 'owner'};
     url.search = new URLSearchParams(params).toString();
-    const res = await fetch(url, {
+    const res = await fetch(url.toString(), {
       method: 'GET',
       headers: this.headers,
     });
